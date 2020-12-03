@@ -1,0 +1,5 @@
+2 2 4
+R a b
+R a b
+W b a
+A a b
