@@ -32,10 +32,10 @@ class Transaction:
         self.num_commands = commands
         self.num_variables = variables
         self.local_mem = [0.0]*self.num_variables
-        self.db_write_values = []
-        self.instruction = []
-        self.x_lock_values = []
-        self.s_lock_values = []
+        self.db_write_values = [] # List to hold values written to db by the transaction
+        self.instruction = [] # List holds instruction set
+        self.x_lock_values = [] # Values x locked by this transaction
+        self.s_lock_values = [] # Values s locked by this transaction
         self.next_ins = 0
         self.commit = False
 

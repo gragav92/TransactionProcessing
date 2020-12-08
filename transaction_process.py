@@ -164,24 +164,28 @@ def process_transactions(db, wait_die):
                 exit
 
 def main():        
-    #Read the input text file from the commandline
+    # Get input for the wait-die deadlock prevention
     wait_die_check = input("Do you want to enable Wait-Die deadlock prevention ? (y/n) :")
     wait_die = False
     if wait_die_check=='y' or wait_die_check=='Y':
         wait_die = True
+    # Read the input text file from the commandline
     db_input_file = sys.argv[1]
+    # Get the values from the file for the transaction and db values
     with open(db_input_file,"r") as db_input:
         n_items = int((db_input.readline()).rstrip())
         db_values_str = (db_input.readline()).rstrip()
         db_values_str = db_values_str.split(' ')
         items = [float(x) for x in db_values_str]
         n_transactions = int((db_input.readline()).rstrip())
+        # Create database object with the input values
         db = Database(n_items, items)
         for i in range(n_transactions):
             transaction_file = db_input.readline().rstrip()
             with open(transaction_file,"r") as t_input:
                 transaction_details_str = (t_input.readline().rstrip()).split(' ')
                 transaction_detail = [int(x) for x in transaction_details_str]
+                # Create transaction objects using the details from the files
                 db.transaction.append(Transaction(transaction_detail[0], transaction_detail[1], transaction_detail[2]))
                 for i in range(transaction_detail[2]):
                     db.transaction[-1].instruction.append(t_input.readline().rstrip())
