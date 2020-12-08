@@ -14,6 +14,8 @@ class Database:
         self.db_size = size
         self.s_lock = [False]*self.db_size
         self.x_lock = [False]*self.db_size
+        self.waiting_transactions = []
+        self.transaction = []
         for i in items:
             self.db.append(i)
 
@@ -38,8 +40,13 @@ class Transaction:
         self.transaction_id = transaction
         self.num_commands = commands
         self.num_variables = variables
-        self.local_mem = [None]*self.num_variables
+        self.local_mem = [0.0]*self.num_variables
+        self.db_write_values = []
         self.instruction = []
+        self.x_lock_values = []
+        self.s_lock_values = []
+        self.next_ins = 0
+        self.commit = False
 
     def read_transaction(self, index):
         #Function to read from the transaction local memory
