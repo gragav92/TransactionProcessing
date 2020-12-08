@@ -1,13 +1,4 @@
 class Database:
-    def __init__(self, size):
-        #Constructor for the Database Class
-        self.db = []
-        self.db_size = size
-        self.s_lock = [False]*self.db_size
-        self.x_lock = [False]*self.db_size
-        for i in range(db_size):
-            self.db.append(0.0)
-
     def __init__(self, size, items):
         #Constructor if item values are provided
         self.db = []
