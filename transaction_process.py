@@ -196,7 +196,6 @@ def main():
                     db.transaction[-1].instruction.append(t_input.readline().rstrip())
 
     process_transactions(db, wait_die)
-    db.Print()
 
 
 
