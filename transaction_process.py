@@ -118,6 +118,7 @@ def process_transactions(db, wait_die):
                     if db.transaction[t].transaction_id in db.waiting_transactions:
                         db.waiting_transactions.remove(db.transaction[t])
                     db.transaction[t].update_transaction(int(ins[2]), db.Read(int(ins[1])))
+                    print("Transaction ",db.transaction[t].transaction_id,", step",db.transaction[t].next_ins,": execute command ",ins[0]," ",ins[1]," ",ins[2],": updated value of Local variable ", ins[2]," is ",ins[1])
                     # Add the index of database item for which s lock has been granted to the transaction s_lock_values list
                     db.transaction[t].s_lock_values.append(int(ins[1]))    
                     db.transaction[t].next_ins += 1
@@ -134,6 +135,7 @@ def process_transactions(db, wait_die):
                         db.waiting_transactions.remove(db.transaction[t])
                     db.transaction[t].db_write_values.append(db.Read(int(ins[1])))
                     db.Write(int(ins[1]), db.transaction[t].read_transaction(int(ins[2])))
+                    print("Transaction ",db.transaction[t].transaction_id,", step",db.transaction[t].next_ins,": execute command ",ins[0]," ",ins[1]," ",ins[2],": updated value of Database item ", ins[1]," is ",db.transaction[t].local_mem[int(ins[2])])
                     # Add the index of database item for which s lock has been granted to the transaction s_lock_values list
                     db.transaction[t].x_lock_values.append(int(ins[1]))
                     db.transaction[t].next_ins += 1
@@ -144,13 +146,16 @@ def process_transactions(db, wait_die):
             #For below three condtions its just local memory access
             elif ins[0]=='A':
                 db.transaction[t].add_value(int(ins[1]), float(ins[2]))
+                print("Transaction ",db.transaction[t].transaction_id,", step",db.transaction[t].next_ins,": execute command ",ins[0]," ",ins[1]," ",ins[2],": updated value of Local variable ", ins[1]," is ",db.transaction[t].local_mem[int(ins[1])])
                 db.transaction[t].next_ins += 1
             elif ins[0]=='M':
                 db.transaction[t].multiply_value(int(ins[1]), float(ins[2]))
+                print("Transaction ",db.transaction[t].transaction_id,", step",db.transaction[t].next_ins,": execute command ",ins[0]," ",ins[1]," ",ins[2],": updated value of Local variable ", ins[1]," is ",db.transaction[t].local_mem[int(ins[1])])
                 db.transaction[t].next_ins += 1
 
             elif ins[0]=='C':
                 db.transaction[t].copy_value(int(ins[1]), int(ins[2]))
+                print("Transaction ",db.transaction[t].transaction_id,", step",db.transaction[t].next_ins,": execute command ",ins[0]," ",ins[1]," ",ins[2],": updated value of Local variable ", ins[1]," is ",db.transaction[t].local_mem[int(ins[1])])
                 db.transaction[t].next_ins += 1
             # Check if the current transaction is complete
             if check_transaction_complete(t, db):
